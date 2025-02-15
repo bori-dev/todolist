@@ -1,19 +1,11 @@
-body {
-    margin: 0;
-    background-image: url("image/background.jpg");
-    background-repeat: no-repeat;
-    background-size: 100vw 100vh;
-    background-position: top;
-}
+
 
 .container {
     background-color: transparent;
+    width: 80vw;
     min-height: 100vh;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
-}
 
-.task-area{
-    border: 1px solid lightpink;
 }
 
 .task-tabs {
@@ -23,21 +15,27 @@ body {
 }
 
 .task-tabs div{
-    padding: 1em;
+    padding: 1.0em;
+    cursor: pointer;
 }
 
 #under-line {
-    height: 4px;
+    height: 5px;
     background-color: rgb(219, 136, 214);
     position: absolute;
-    width: 80px;
+    width: 70px;
     left:  0px;
-    top: 52px;
+    top: 53px;
     padding: 0px;
+    transition: 0.5s;
 }
 
 .task {
     display: flex;
     justify-content: space-between;
     padding: 1em;
+}
+
+.task-done{
+    text-decoration: line-through;
 }
