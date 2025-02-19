@@ -8,20 +8,25 @@ let filterList = [];
 let mode = 'all'
 
 tabs.forEach(menu => menu.addEventListener("click", (e) => Indicator(e)))
+
 userInput.addEventListener("keydown", function(event) {
     if(event.key === "Enter") {
         inputButton.click();
+        userInput.value = "";
     }
 }
 )
 
 inputButton.addEventListener("click", addTask)
+   
 
 for(let i=1; i<tabs.length; i++){
     tabs[i].addEventListener("click", function(event){filter(event)});
 }
 
 function addTask() {
+    let taskValue = userInput.value;
+    if(taskValue === "") return alert ("할일을 입력해주세요")
     let task = {
         id: randomIDGenerate(), 
         taskContent : userInput.value,
@@ -30,7 +35,8 @@ function addTask() {
     taskList.push(task)
     console.log(taskList)
     render()
- 
+
+    userInput.value = "";
 }
 
 function render() { 
@@ -44,13 +50,12 @@ function render() {
     let resultHTML = '';
     for(let i = 0; i<list.length; i++){
         if(list[i].isComplete == true){
-            resultHTML+=`<div class="task"> 
-                    <div class="task-done"> 
+            resultHTML+=`
+                    <div class="task-done task"> 
                      ${list[i].taskContent}
-                    </div>
                     <div>
-                        <button onclick="toggleComplete('${list[i].id}')"> Check </button>
-                        <button onclick="deleteTask('${list[i].id}')"> Delete </button>
+                        <button onclick="toggleComplete('${list[i].id}')"><i class="fa-solid fa-rotate-left"></i></button>
+                        <button onclick="deleteTask('${list[i].id}')"><i class="fa-solid fa-trash"></i></button>
                     </div>
                 </div>`
         }else {
@@ -59,8 +64,8 @@ function render() {
                      ${list[i].taskContent}
                     </div>
                     <div>
-                        <button onclick="toggleComplete('${list[i].id}')"> Check </button>
-                        <button  onclick="toggleComplete('${list[i].id}')"> Delete </button>
+                        <button onclick="toggleComplete('${list[i].id}')"><i class="fa-solid fa-check"></i></button>
+                        <button  onclick="toggleComplete('${list[i].id}')"><i class="fa-solid fa-trash"></i></button>
                     </div>
                 </div>`
     }
@@ -81,34 +86,42 @@ function toggleComplete(id) {
 }
 
 function deleteTask(id) {
-    for(let i=0; i<taskList.length; i++){
-        if(taskList[i].id == id){
-            taskList.splice(i,1)
-            break;a
+    // taskList에서 해당 id를 가진 아이템을 삭제
+    for (let i = 0; i < taskList.length; i++) {
+        if (taskList[i].id === id) {
+            taskList.splice(i, 1); // 해당 아이템 삭제
+            break;
         }
-       }
+    }
 
-       filter({ target: { id: mode } });
+    // 삭제 후 바로 화면 갱신
+    if (mode === 'all') {
+        render(); // 전체 리스트 렌더링
+    } else if (mode === 'ongoing') {
+        filter({ target: { id: 'ongoing' } }); // ongoing 상태로 필터링 후 렌더링
+    } else if (mode === 'done') {
+        filter({ target: { id: 'done' } }); // done 상태로 필터링 후 렌더링
+    }
 }
+
 
 function filter(event) {
   mode = event.target.id;
   filterList = [];
-  if(mode === "all"){
-   render();
-  }else if(mode === "ongoing"){
+  if(mode === "ongoing"){
    for(let i=0; i<taskList.length; i++){
     if(taskList[i].isComplete === false){
       filterList.push(taskList[i]) 
     }
-   }render();
+   }
   }else if(mode === "done"){
     for(let i=0; i<taskList.length; i++){
         if(taskList[i].isComplete === true){
             filterList.push(taskList[i])
         }
-  }render(); 
+  }
 }
+render(); 
 }
 
 function Indicator(e) {
