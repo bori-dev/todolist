@@ -65,7 +65,7 @@ function render() {
                     </div>
                     <div>
                         <button onclick="toggleComplete('${list[i].id}')"><i class="fa-solid fa-check"></i></button>
-                        <button  onclick="toggleComplete('${list[i].id}')"><i class="fa-solid fa-trash"></i></button>
+                        <button  onclick="deleteTask('${list[i].id}')"><i class="fa-solid fa-trash"></i></button>
                     </div>
                 </div>`
     }
