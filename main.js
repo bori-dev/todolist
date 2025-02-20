@@ -82,7 +82,11 @@ function toggleComplete(id) {
         break;
     }
    }
-   render();
+   if (mode === 'all') {
+    render(); 
+} else {
+    filter({ target: { id: mode } }); 
+}
 }
 
 function deleteTask(id) {
